@@ -9,11 +9,10 @@
 
 <p align="center">
   <strong>
-  <em>Anime.js</em> is a fast, multipurpose and lightweight JavaScript animation library with a simple, yet powerful API.<br>
-  It works with CSS properties, SVG, DOM attributes and JavaScript Objects.
+  <em>Anime.js</em> 是一个快速、多用途、轻量级的 JavaScript 动画库，拥有简单而强大的 API。<br>
+  它可以作用于 CSS 属性、SVG、DOM 属性和 JavaScript 对象。
   </strong>
 </p>
-
 
 <p align="center">
   <img alt="NPM Downloads" src="https://img.shields.io/npm/dm/animejs?style=flat-square&logo=npm">
@@ -21,12 +20,12 @@
   <img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/juliangarnier?style=flat-square&logo=github">
 </p>
 
-## Sponsors
+## 赞助商
 
-Anime.js is 100% free and is only made possible with the help of our sponsors.
-Help the project become sustainable by sponsoring us on <a target="_blank" href="https://github.com/sponsors/juliangarnier">GitHub Sponsors</a>.
+Anime.js 完全免费，并且只有在我们的赞助商帮助下才得以实现。
+请通过 <a target="_blank" href="https://github.com/sponsors/juliangarnier">GitHub Sponsors</a> 赞助我们，帮助项目持续健康发展。
 
-### Platinum sponsors
+### 铂金赞助商
 
 <table>
   <tbody>
@@ -58,7 +57,7 @@ Help the project become sustainable by sponsoring us on <a target="_blank" href=
   </tbody>
 </table>
 
-### Silver sponsors
+### 银色赞助商
 
 <table>
   <tbody>
@@ -111,13 +110,11 @@ Help the project become sustainable by sponsoring us on <a target="_blank" href=
   </tbody>
 </table>
 
-Get featured here by becoming a <a target="_blank" href="https://github.com/sponsors/juliangarnier">GitHub Sponsor</a>.
+获取特色内容请成为 <a target="_blank" href="https://github.com/sponsors/juliangarnier">GitHub 赞助者</a>。
 
+## 用法
 
-## Usage
-
-Anime.js V4 works by importing ES modules like so:
-
+Anime.js V4 通过导入 ES 模块来使用：
 
 <table>
 <tr>
@@ -147,26 +144,26 @@ animate('.square', {
 </tr>
 </table>
 
-## V4 Documentation
+## V4 文档
 
-The full documentation is available [here](https://animejs.com/documentation).
+完整文档请访问：<a target="_blank" href="https://animejs.com/documentation">这里</a>。
 
-## V3 Migration guide
+## V3 迁移指南
 
-You can find the v3 to v4 migration guide [here](https://github.com/juliangarnier/anime/wiki/Migrating-from-v3-to-v4).
+V3 到 V4 的迁移指南请访问：<a target="_blank" href="https://github.com/juliangarnier/anime/wiki/Migrating-from-v3-to-v4">这里</a>。
 
-## NPM development scripts
+## NPM 开发脚本
 
-First, run `npm i` to install all the necessary packages.
-Then, execute the following scripts with `npm run <script>`.
+首先运行 `npm i` 安装所有必要的依赖包。
+然后使用 `npm run <script>` 执行以下脚本：
 
-| script | action |
-| ------ | ------ |
-| `dev` | Watches for changes in `src/**/*.js`, bundles the ESM version to `lib/` and creates type declarations in `types/` |
-| `dev:test` | Runs `dev` and `test:browser` concurrently |
-| `build` | Bundles ESM / UMD / CJS / IIFE versions to `lib/` and creates type declarations in `types/` |
-| `test:browser` | Starts a local server and runs all browser-related tests |
-| `test:node` | Starts Node-related tests |
-| `open:examples` | Starts a local server to browse the examples locally |
+| 脚本 | 动作 |
+| --- | --- |
+| `dev` | 监听 `src/**/*.js` 的变更，将 ESM 版本打包到 `lib/` 并在 `types/` 中生成类型声明 |
+| `dev:test` | 同时运行 `dev` 和 `test:browser` |
+| `build` | 将 ESM / UMD / CJS / IIFE 版本打包到 `lib/` 并在 `types/` 中生成类型声明 |
+| `test:browser` | 启动本地服务器并运行所有浏览器相关测试 |
+| `test:node` | 启动 Node 相关测试 |
+| `open:examples` | 启动本地服务器以便在本地浏览示例 |
 
-© [Julian Garnier](http://juliangarnier.com) | [MIT License](LICENSE.md)
+© [Julian Garnier](http://juliangarnier.com) | <a target="_blank" href="https://github.com/juliangarnier/anime/blob/master/LICENSE.md">MIT 许可协议</a>
