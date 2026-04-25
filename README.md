@@ -167,3 +167,7 @@ V3 到 V4 的迁移指南请访问：<a target="_blank" href="https://github.com
 | `open:examples` | 启动本地服务器以便在本地浏览示例 |
 
 © [Julian Garnier](http://juliangarnier.com) | <a target="_blank" href="https://github.com/juliangarnier/anime/blob/master/LICENSE.md">MIT 许可协议</a>
+
+---
+
+> 本文档汉化自 <https://github.com/juliangarnier/anime>
