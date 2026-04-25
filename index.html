@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anime.js — 轻量级 JavaScript 动画库</title>
+<meta name="description" content="Anime.js 是一个快速、多用途、轻量级的 JavaScript 动画库，拥有简单而强大的 API。" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/animejs@4.0.2/lib/anime.iife.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'PingFang SC', 'Microsoft YaHei', 'system-ui', 'sans-serif'],
+          mono: ['JetBrains Mono', 'Fira Code', 'Menlo', 'monospace'],
+        },
+        colors: {
+          ink: '#0b0b14',
+          accent: '#ff5e5b',
+          glow: '#7c3aed',
+        },
+        animation: {
+          'gradient-x': 'gradient-x 8s ease infinite',
+        },
+        keyframes: {
+          'gradient-x': {
+            '0%,100%': { 'background-position': '0% 50%' },
+            '50%':     { 'background-position': '100% 50%' },
+          },
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: radial-gradient(ellipse at top, #18182b 0%, #0b0b14 60%); }
+  .grad-text {
+    background: linear-gradient(90deg,#ff5e5b,#f59e0b,#7c3aed,#06b6d4,#ff5e5b);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-x 8s ease infinite;
+  }
+  .card-glow {
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+    border: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(8px);
+  }
+  pre code { font-family: 'JetBrains Mono', monospace; }
+  .square {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: linear-gradient(135deg,#ff5e5b,#7c3aed);
+    box-shadow: 0 8px 30px rgba(124,58,237,.35);
+  }
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+  /* token highlight */
+  .tok-k{color:#c084fc} .tok-s{color:#fbbf24} .tok-n{color:#67e8f9} .tok-c{color:#64748b} .tok-f{color:#86efac}
+</style>
+</head>
+<body class="text-slate-200 font-sans antialiased selection:bg-accent/40 selection:text-white">
+
+<!-- NAV -->
+<header class="sticky top-0 z-50 backdrop-blur-md bg-ink/60 border-b border-white/5">
+  <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2 font-bold">
+      <span class="inline-block w-7 h-7 rounded-md bg-gradient-to-br from-accent to-glow"></span>
+      <span class="text-lg">Anime<span class="text-accent">.js</span></span>
+      <span class="ml-2 px-2 py-0.5 text-xs rounded-full bg-white/10 text-slate-300">V4</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm text-slate-300">
+      <a href="#features" class="hover:text-white">特性</a>
+      <a href="#usage" class="hover:text-white">用法</a>
+      <a href="#scripts" class="hover:text-white">脚本</a>
+      <a href="#sponsors" class="hover:text-white">赞助商</a>
+      <a target="_blank" href="https://animejs.com/documentation" class="hover:text-white">文档 ↗</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a target="_blank" href="https://github.com/juliangarnier/anime"
+         class="px-3 py-1.5 text-sm rounded-md border border-white/10 hover:border-white/30 transition">GitHub</a>
+      <a target="_blank" href="https://github.com/sponsors/juliangarnier"
+         class="hidden sm:inline-block px-3 py-1.5 text-sm rounded-md bg-accent text-white hover:bg-accent/90 transition">♥ 赞助</a>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 grid-bg pointer-events-none"></div>
+  <div class="max-w-7xl mx-auto px-6 pt-20 pb-24 relative">
+    <div class="text-center max-w-4xl mx-auto">
+      <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs bg-white/5 border border-white/10 text-slate-300">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        最新版本 V4 · 全新 ES Module API
+      </span>
+      <h1 class="mt-6 text-5xl md:text-7xl font-extrabold leading-[1.05] tracking-tight">
+        <span class="grad-text">轻量级 JavaScript</span><br/>
+        动画库，简单而强大
+      </h1>
+      <p class="mt-6 text-lg md:text-xl text-slate-300 leading-relaxed">
+        <strong class="text-white">Anime.js</strong> 是一个快速、多用途、轻量级的 JavaScript 动画库，
+        可作用于 <span class="text-accent">CSS 属性</span>、
+        <span class="text-amber-400">SVG</span>、
+        <span class="text-cyan-400">DOM 属性</span> 与
+        <span class="text-violet-400">JavaScript 对象</span>。
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <a href="#usage" class="px-5 py-3 rounded-lg bg-white text-ink font-semibold hover:bg-slate-200 transition">立即开始 →</a>
+        <a target="_blank" href="https://animejs.com/documentation"
+           class="px-5 py-3 rounded-lg border border-white/15 hover:border-white/40 transition">阅读文档</a>
+        <code class="px-4 py-3 rounded-lg bg-black/40 border border-white/10 font-mono text-sm text-slate-300">
+          npm i animejs
+        </code>
+      </div>
+
+      <!-- Badges -->
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3 opacity-90">
+        <img alt="NPM Downloads" src="https://img.shields.io/npm/dm/animejs?style=flat-square&logo=npm">
+        <img alt="jsDelivr hits" src="https://img.shields.io/jsdelivr/npm/hm/animejs?style=flat-square&logo=jsdeliver">
+        <img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/juliangarnier?style=flat-square&logo=github">
+      </div>
+    </div>
+
+    <!-- Live demo -->
+    <div class="mt-20 card-glow rounded-2xl p-8 md:p-12">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-sm font-mono text-slate-400">// 在线预览</h3>
+        <button id="replay" class="text-xs px-3 py-1.5 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 transition">↻ 重播</button>
+      </div>
+      <div id="demo" class="flex items-center justify-center gap-3 min-h-[120px]">
+        <div class="square"></div><div class="square"></div><div class="square"></div>
+        <div class="square"></div><div class="square"></div><div class="square"></div>
+        <div class="square"></div><div class="square"></div><div class="square"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="max-w-7xl mx-auto px-6 py-24">
+  <div class="text-center mb-16">
+    <h2 class="text-4xl md:text-5xl font-bold">为什么选择 <span class="grad-text">Anime.js</span></h2>
+    <p class="mt-4 text-slate-400">极致轻量、API 优雅、能力全面 — 一个动画库满足所有需求。</p>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="card-glow rounded-xl p-6 hover:-translate-y-1 transition">
+      <div class="w-10 h-10 rounded-lg bg-accent/20 text-accent flex items-center justify-center mb-4">⚡</div>
+      <h3 class="font-semibold text-lg">极速性能</h3>
+      <p class="mt-2 text-sm text-slate-400">底层针对动画帧高度优化，复杂时间线也能流畅运行。</p>
+    </div>
+    <div class="card-glow rounded-xl p-6 hover:-translate-y-1 transition">
+      <div class="w-10 h-10 rounded-lg bg-violet-500/20 text-violet-300 flex items-center justify-center mb-4">🪶</div>
+      <h3 class="font-semibold text-lg">轻量体积</h3>
+      <p class="mt-2 text-sm text-slate-400">体积小巧，无运行时依赖，按需 ESM 引入，加载即用。</p>
+    </div>
+    <div class="card-glow rounded-xl p-6 hover:-translate-y-1 transition">
+      <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center mb-4">🎨</div>
+      <h3 class="font-semibold text-lg">多用途</h3>
+      <p class="mt-2 text-sm text-slate-400">同时支持 CSS、SVG、DOM 属性与任意 JavaScript 对象。</p>
+    </div>
+    <div class="card-glow rounded-xl p-6 hover:-translate-y-1 transition">
+      <div class="w-10 h-10 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center mb-4">✨</div>
+      <h3 class="font-semibold text-lg">API 简洁</h3>
+      <p class="mt-2 text-sm text-slate-400">声明式语法，stagger / 缓动 / 时间线一行搞定。</p>
+    </div>
+  </div>
+</section>
+
+<!-- USAGE -->
+<section id="usage" class="max-w-7xl mx-auto px-6 py-24">
+  <div class="grid lg:grid-cols-2 gap-10 items-center">
+    <div>
+      <h2 class="text-4xl md:text-5xl font-bold leading-tight">用法</h2>
+      <p class="mt-4 text-slate-300 text-lg leading-relaxed">
+        Anime.js V4 通过导入 <span class="text-accent font-mono">ES 模块</span> 来使用。
+        下面的示例展示了如何用 <span class="font-mono text-amber-300">stagger</span> 实现错落有致的位移与旋转动画。
+      </p>
+      <ul class="mt-6 space-y-3 text-slate-300">
+        <li class="flex gap-3"><span class="text-accent">▸</span>声明式属性配置，自动推导单位</li>
+        <li class="flex gap-3"><span class="text-accent">▸</span>内置丰富缓动函数（如 <code class="font-mono text-amber-300">inOutQuint</code>）</li>
+        <li class="flex gap-3"><span class="text-accent">▸</span><code class="font-mono text-amber-300">loop</code> + <code class="font-mono text-amber-300">alternate</code> 轻松循环往返</li>
+      </ul>
+    </div>
+
+    <div class="card-glow rounded-2xl overflow-hidden shadow-2xl">
+      <div class="flex items-center gap-2 px-4 py-3 bg-black/40 border-b border-white/5">
+        <span class="w-3 h-3 rounded-full bg-red-400"></span>
+        <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+        <span class="w-3 h-3 rounded-full bg-green-400"></span>
+        <span class="ml-3 text-xs text-slate-400 font-mono">app.js</span>
+      </div>
+<pre class="p-6 text-sm leading-relaxed overflow-x-auto"><code><span class="tok-k">import</span> {
+  <span class="tok-n">animate</span>,
+  <span class="tok-n">stagger</span>,
+} <span class="tok-k">from</span> <span class="tok-s">'animejs'</span>;
+
+<span class="tok-f">animate</span>(<span class="tok-s">'.square'</span>, {
+  <span class="tok-n">x</span>: <span class="tok-s">320</span>,
+  <span class="tok-n">rotate</span>: { <span class="tok-n">from</span>: -<span class="tok-s">180</span> },
+  <span class="tok-n">duration</span>: <span class="tok-s">1250</span>,
+  <span class="tok-n">delay</span>: <span class="tok-f">stagger</span>(<span class="tok-s">65</span>, { <span class="tok-n">from</span>: <span class="tok-s">'center'</span> }),
+  <span class="tok-n">ease</span>: <span class="tok-s">'inOutQuint'</span>,
+  <span class="tok-n">loop</span>: <span class="tok-k">true</span>,
+  <span class="tok-n">alternate</span>: <span class="tok-k">true</span>
+});</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- SCRIPTS -->
+<section id="scripts" class="max-w-7xl mx-auto px-6 py-24">
+  <div class="text-center mb-12">
+    <h2 class="text-4xl md:text-5xl font-bold">NPM 开发脚本</h2>
+    <p class="mt-4 text-slate-400">先运行 <code class="font-mono text-amber-300">npm i</code> 安装依赖，然后使用 <code class="font-mono text-amber-300">npm run &lt;script&gt;</code></p>
+  </div>
+
+  <div class="card-glow rounded-2xl overflow-hidden">
+    <table class="w-full text-left">
+      <thead class="bg-white/5 text-slate-300 text-sm">
+        <tr>
+          <th class="px-6 py-4 w-48">脚本</th>
+          <th class="px-6 py-4">动作</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-white/5 text-sm">
+        <tr class="hover:bg-white/5 transition">
+          <td class="px-6 py-4 font-mono text-accent">dev</td>
+          <td class="px-6 py-4 text-slate-300">监听 <code class="font-mono text-slate-400">src/**/*.js</code> 的变更，将 ESM 版本打包到 <code class="font-mono text-slate-400">lib/</code> 并生成类型声明</td>
+        </tr>
+        <tr class="hover:bg-white/5 transition">
+          <td class="px-6 py-4 font-mono text-accent">dev:test</td>
+          <td class="px-6 py-4 text-slate-300">同时运行 <code class="font-mono text-slate-400">dev</code> 和 <code class="font-mono text-slate-400">test:browser</code></td>
+        </tr>
+        <tr class="hover:bg-white/5 transition">
+          <td class="px-6 py-4 font-mono text-accent">build</td>
+          <td class="px-6 py-4 text-slate-300">将 ESM / UMD / CJS / IIFE 版本打包到 <code class="font-mono text-slate-400">lib/</code> 并生成类型声明</td>
+        </tr>
+        <tr class="hover:bg-white/5 transition">
+          <td class="px-6 py-4 font-mono text-accent">test:browser</td>
+          <td class="px-6 py-4 text-slate-300">启动本地服务器并运行所有浏览器相关测试</td>
+        </tr>
+        <tr class="hover:bg-white/5 transition">
+          <td class="px-6 py-4 font-mono text-accent">test:node</td>
+          <td class="px-6 py-4 text-slate-300">启动 Node 相关测试</td>
+        </tr>
+        <tr class="hover:bg-white/5 transition">
+          <td class="px-6 py-4 font-mono text-accent">open:examples</td>
+          <td class="px-6 py-4 text-slate-300">启动本地服务器以便在本地浏览示例</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- DOCS / MIGRATION -->
+<section class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-6">
+  <a target="_blank" href="https://animejs.com/documentation"
+     class="card-glow rounded-2xl p-8 group hover:border-accent/40 transition">
+    <div class="text-xs text-slate-400 font-mono mb-2">DOCUMENTATION</div>
+    <h3 class="text-2xl font-bold">V4 完整文档 <span class="text-accent group-hover:translate-x-1 inline-block transition">→</span></h3>
+    <p class="mt-3 text-slate-400">完整的 API 参考、示例与最佳实践，访问 animejs.com/documentation。</p>
+  </a>
+  <a target="_blank" href="https://github.com/juliangarnier/anime/wiki/Migrating-from-v3-to-v4"
+     class="card-glow rounded-2xl p-8 group hover:border-violet-400/40 transition">
+    <div class="text-xs text-slate-400 font-mono mb-2">MIGRATION</div>
+    <h3 class="text-2xl font-bold">V3 → V4 迁移指南 <span class="text-violet-400 group-hover:translate-x-1 inline-block transition">→</span></h3>
+    <p class="mt-3 text-slate-400">从 V3 升级到 V4 的完整迁移步骤与变更对照说明。</p>
+  </a>
+</section>
+
+<!-- SPONSORS -->
+<section id="sponsors" class="max-w-7xl mx-auto px-6 py-24">
+  <div class="text-center mb-12">
+    <h2 class="text-4xl md:text-5xl font-bold">赞助商</h2>
+    <p class="mt-4 text-slate-300 max-w-2xl mx-auto">
+      Anime.js 完全免费，并且只有在赞助商的帮助下才得以实现。
+      请通过
+      <a class="text-accent underline-offset-4 hover:underline" target="_blank" href="https://github.com/sponsors/juliangarnier">GitHub Sponsors</a>
+      赞助我们，帮助项目持续健康发展。
+    </p>
+  </div>
+
+  <h3 class="text-sm uppercase tracking-widest text-slate-400 mb-4">铂金赞助商</h3>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+    <a target="_blank" href="https://ice.io/?ref=animejs" class="card-glow rounded-xl p-8 flex items-center justify-center hover:border-white/20 transition">
+      <img src="https://raw.githubusercontent.com/juliangarnier/anime/master/assets/sponsors/ice-open-network-logomark.png?v=200126" class="max-h-14" alt="ICE Open Network">
+    </a>
+    <a target="_blank" href="https://hyperswitch.io/" class="card-glow rounded-xl p-8 flex items-center justify-center hover:border-white/20 transition">
+      <img src="https://raw.githubusercontent.com/juliangarnier/anime/master/assets/sponsors/juspay-logomark.png?v=200126" class="max-h-14" alt="Juspay / Hyperswitch">
+    </a>
+    <a target="_blank" href="https://github.com/sponsors/juliangarnier" class="card-glow rounded-xl p-8 flex items-center justify-center text-slate-400 hover:text-white hover:border-accent/40 transition">
+      + 成为铂金赞助商
+    </a>
+  </div>
+
+  <h3 class="text-sm uppercase tracking-widest text-slate-400 mb-4">银色赞助商</h3>
+  <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+    <a target="_blank" href="https://www.testmuai.com/" class="card-glow rounded-xl p-6 flex items-center justify-center hover:border-white/20 transition">
+      <img src="https://raw.githubusercontent.com/juliangarnier/anime/master/assets/sponsors/testmu-ai-logomark.png?v=200126" class="max-h-10" alt="TestMu AI">
+    </a>
+    <a target="_blank" href="https://inspatialapp.com/?ref=animejs" class="card-glow rounded-xl p-6 flex items-center justify-center hover:border-white/20 transition">
+      <img src="https://raw.githubusercontent.com/juliangarnier/anime/master/assets/sponsors/inspatial-logomark.png?v=200126" class="max-h-10" alt="InSpatial">
+    </a>
+    <a target="_blank" href="https://github.com/sponsors/juliangarnier" class="card-glow rounded-xl p-6 flex items-center justify-center text-slate-500 text-xs hover:text-white hover:border-accent/40 transition">+ 成为赞助者</a>
+    <a target="_blank" href="https://github.com/sponsors/juliangarnier" class="card-glow rounded-xl p-6 flex items-center justify-center text-slate-500 text-xs hover:text-white hover:border-accent/40 transition">+ 成为赞助者</a>
+    <a target="_blank" href="https://github.com/sponsors/juliangarnier" class="card-glow rounded-xl p-6 flex items-center justify-center text-slate-500 text-xs hover:text-white hover:border-accent/40 transition">+ 成为赞助者</a>
+    <a target="_blank" href="https://github.com/sponsors/juliangarnier" class="card-glow rounded-xl p-6 flex items-center justify-center text-slate-500 text-xs hover:text-white hover:border-accent/40 transition">+ 成为赞助者</a>
+  </div>
+
+  <p class="mt-10 text-center text-slate-400">
+    获取特色内容请成为
+    <a target="_blank" href="https://github.com/sponsors/juliangarnier" class="text-accent hover:underline">GitHub 赞助者</a>。
+  </p>
+</section>
+
+<!-- CTA -->
+<section class="max-w-5xl mx-auto px-6 py-20">
+  <div class="card-glow rounded-3xl p-12 text-center relative overflow-hidden">
+    <div class="absolute -inset-px rounded-3xl bg-gradient-to-r from-accent/20 via-violet-500/20 to-cyan-500/20 blur-2xl -z-10"></div>
+    <h2 class="text-3xl md:text-4xl font-bold">现在就开始你的下一段动画 ✨</h2>
+    <p class="mt-4 text-slate-300">仅需一行命令，让你的网页动起来。</p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <code class="px-5 py-3 rounded-lg bg-black/50 border border-white/10 font-mono text-slate-200">npm install animejs</code>
+      <a target="_blank" href="https://animejs.com/documentation"
+         class="px-5 py-3 rounded-lg bg-accent text-white font-semibold hover:bg-accent/90 transition">查看文档 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-white/5 mt-10">
+  <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-400">
+    <div>© <a target="_blank" class="hover:text-white" href="http://juliangarnier.com">Julian Garnier</a> · 基于
+      <a target="_blank" class="hover:text-white" href="https://github.com/juliangarnier/anime/blob/master/LICENSE.md">MIT 许可协议</a> 开源
+    </div>
+    <div class="flex items-center gap-5">
+      <a target="_blank" href="https://github.com/juliangarnier/anime" class="hover:text-white">GitHub</a>
+      <a target="_blank" href="https://animejs.com/documentation" class="hover:text-white">文档</a>
+      <a target="_blank" href="https://github.com/sponsors/juliangarnier" class="hover:text-white">赞助</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function runDemo() {
+    if (!window.anime) return;
+    const { animate, stagger } = window.anime;
+    animate('#demo .square', {
+      x: [{ from: -120, to: 120 }],
+      rotate: { from: -180 },
+      scale: [{ from: 0.6, to: 1 }],
+      duration: 1400,
+      delay: stagger(70, { from: 'center' }),
+      ease: 'inOutQuint',
+      loop: true,
+      alternate: true,
+    });
+  }
+  runDemo();
+  document.getElementById('replay').addEventListener('click', runDemo);
+</script>
+</body>
+</html>
